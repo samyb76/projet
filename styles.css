@@ -1,0 +1,110 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    text-align: center;
+}
+
+header h1 {
+    background-color: yellow;
+}
+
+header nav ul {
+    display: flex;
+    list-style-type: none;
+    padding: 10px 20px;
+    align-items: center;
+    background-color: black;
+    gap: 20px;
+    text-decoration: none;
+    color: white;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+    border-right: solid 2px white;
+    padding-right: 10px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+    color: yellow
+}
+
+nav a.active {
+    color: yellow;
+    font-weight: bold;
+}
+
+main h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.container {
+    display: grid;
+}
+
+.container section {
+    grid-column: 2;
+}
+
+main h2 {
+    margin: 20px 0;
+    text-align: center;
+}
+
+main label {
+    color: yellow;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+input.connect {
+    background-color: yellow;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+input.reset {
+    background-color: white;
+    border: none;
+    padding: 10px 20px;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    border: solid 1px black;
+}
+
+main nav ul {
+    list-style-type: all;
+    padding: 10px 20px;
+    align-items: center;
+    gap: 20px;
+    text-decoration: none;
+    color: black;
+}
+
+main nav a {
+    text-decoration: none;
+    color: black;
+    border-right: solid 2px white;
+    padding-right: 10px;
+}
+
+main nav a:hover {
+    text-decoration: underline;
+    color: yellow
+}
+
+main nav a.active {
+    color: yellow;
+    font-weight: bold;
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Visualisation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header id="top">
+        <h1>CESI BIKE</h1>
+
+        <nav>
+
+            <ul id="navPostes"></ul>
+            <ul>
+                <li><a href="visualisation.html">Retour</a></li>
+            </ul>
+
+
+        </nav>
+    </header>
+
+    <main>
+        <h2>Visualisation d'un poste précis</h2>
+        <div id="postesDetailsContainer"></div>
+
+        <!-- Template d'une section Poste -->
+        <template id="posteDetailsTpl">
+            <section class="posteDetails">
+                <h2 class="posteTitle"></h2>
+
+                <h3>État du stock</h3>
+                <table border="1" cellpadding="8">
+                    <thead>
+                        <tr>
+                            <th>Pièce</th>
+                            <th>Quantité</th>
+                        </tr>
+                    </thead>
+                    <tbody class="stockBody"></tbody>
+                </table>
+
+                <h3>Temps par étape</h3>
+                <table border="1" cellpadding="8">
+                    <thead>
+                        <tr>
+                            <th>Étape</th>
+                            <th>Temps 1</th>
+                            <th>Temps 2</th>
+                            <th>Temps 3</th>
+                            <th>Temps 4</th>
+                            <th>Temps 5</th>
+                        </tr>
+                    </thead>
+                    <tbody class="tempsBody"></tbody>
+                </table>
+
+                <p><a href="#top">⬆ Haut de page</a></p>
+                <hr />
+            </section>
+        </template>
+    </main>
+    <script src="script.js"></script>
+</body>
+<footer>
+    <p>© 2026 - CESI BIKE. Tous droits réservés.</p>
+</footer>
+
+</html>

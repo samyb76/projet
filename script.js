@@ -4,15 +4,14 @@
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
+const KEY_NB_POSTES = "nbPostes";
+
 const toInt = (v, def = 1) => {
     const n = parseInt(v, 10);
     return Number.isFinite(n) && n >= 1 ? n : def;
 };
 
-const slug = (s) => (s || "")
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, "_");
+const slug = (s) => (s || "").trim().toLowerCase().replace(/\s+/g, "_");
 
 function telechargerCsv(filename, csvText) {
     const blob = new Blob([csvText], { type: "text/csv;charset=utf-8;" });
@@ -28,6 +27,14 @@ function telechargerCsv(filename, csvText) {
 
 function makeCsv(header, rows) {
     return [header.join(","), ...rows.map(r => r.join(","))].join("\n");
+}
+
+function getSavedNb(def = 1) {
+    return toInt(localStorage.getItem(KEY_NB_POSTES), def);
+}
+
+function setSavedNb(n) {
+    localStorage.setItem(KEY_NB_POSTES, String(n));
 }
 
 // ===========================
@@ -85,8 +92,14 @@ function makeCsv(header, rows) {
         $('[name="nbPieces"]', etapeEl)?.value ?? ""
     ]));
 
-    btnValider.addEventListener("click", () => creerPostes(nbPostesInput.value));
+    // bouton "Valider postes" : sauvegarde + regen
+    btnValider.addEventListener("click", () => {
+        const n = toInt(nbPostesInput.value, 1);
+        setSavedNb(n);
+        creerPostes(n);
+    });
 
+    // actions dans les postes
     container.addEventListener("click", (e) => {
         const form = e.target.closest("form.poste");
         if (!form) return;
@@ -115,7 +128,10 @@ function makeCsv(header, rows) {
         // action à ajouter plus tard
     });
 
-    creerPostes(nbPostesInput.value);
+    // init : prend la valeur sauvegardée si elle existe
+    const saved = getSavedNb(toInt(nbPostesInput.value, 1));
+    nbPostesInput.value = saved;
+    creerPostes(saved);
 })();
 
 // ===========================
@@ -127,7 +143,7 @@ function makeCsv(header, rows) {
     const tbody = $("#visuBody");
     const tpl = $("#lignePosteTpl");
 
-    if (!nbInput || !btn || !tbody || !tpl) return;
+    if (!tbody || !tpl) return;
 
     const fakeData = () => ({
         stock: Math.floor(Math.random() * 101),
@@ -154,8 +170,19 @@ function makeCsv(header, rows) {
         }
     }
 
-    btn.addEventListener("click", () => render(nbInput.value));
-    render(nbInput.value);
+    // init depuis localStorage
+    const saved = getSavedNb(6);
+    if (nbInput) nbInput.value = saved;
+    render(saved);
+
+    // si tu gardes input+bouton sur cette page
+    if (btn && nbInput) {
+        btn.addEventListener("click", () => {
+            const n = toInt(nbInput.value, 1);
+            setSavedNb(n); // optionnel: garder synchro
+            render(n);
+        });
+    }
 })();
 
 // ===========================
@@ -168,7 +195,7 @@ function makeCsv(header, rows) {
     const container = $("#postesDetailsContainer");
     const tpl = $("#posteDetailsTpl");
 
-    if (!nbInput || !btn || !nav || !container || !tpl) return;
+    if (!nav || !container || !tpl) return;
 
     const pieces = ["Vis M3", "Rondelle", "Moteur", "Capteur", "Cable", "LED", "PCB", "Axe", "Ecrou"];
     const pick = () => pieces[Math.floor(Math.random() * pieces.length)];
@@ -181,7 +208,7 @@ function makeCsv(header, rows) {
     ]);
 
     const fakeTemps = () => {
-        const nbEtapes = Math.floor(Math.random() * 5) + 5; // 5..9
+        const nbEtapes = Math.floor(Math.random() * 5) + 5;
         return Array.from({ length: nbEtapes }, (_, i) => ({
             etape: i + 1,
             t: [rndTime(), rndTime(), rndTime(), rndTime(), rndTime()]
@@ -191,30 +218,23 @@ function makeCsv(header, rows) {
     function render(n) {
         n = toInt(n, 1);
 
-        // nav
         nav.innerHTML = "";
+        container.innerHTML = "";
+
         for (let i = 1; i <= n; i++) {
             nav.insertAdjacentHTML("beforeend", `<li><a href="#poste${i}">Poste ${i}</a></li>`);
-        }
 
-        // sections
-        container.innerHTML = "";
-        for (let i = 1; i <= n; i++) {
             const clone = tpl.content.cloneNode(true);
             const section = clone.querySelector("section.posteDetails");
 
             section.id = `poste${i}`;
             section.querySelector(".posteTitle").textContent = `Poste ${i}`;
 
-            // stock
-            const stockBody = section.querySelector(".stockBody");
-            stockBody.innerHTML = fakeStock()
+            section.querySelector(".stockBody").innerHTML = fakeStock()
                 .map(r => `<tr><td>${r.piece}</td><td>${r.qte}</td></tr>`)
                 .join("");
 
-            // temps
-            const tempsBody = section.querySelector(".tempsBody");
-            tempsBody.innerHTML = fakeTemps()
+            section.querySelector(".tempsBody").innerHTML = fakeTemps()
                 .map(e => `
           <tr>
             <td>Étape ${e.etape}</td>
@@ -224,13 +244,23 @@ function makeCsv(header, rows) {
             <td>${e.t[3]}</td>
             <td>${e.t[4]}</td>
           </tr>
-        `)
-                .join("");
+        `).join("");
 
             container.appendChild(clone);
         }
     }
 
-    btn.addEventListener("click", () => render(nbInput.value));
-    render(nbInput.value);
+    // init depuis localStorage
+    const saved = getSavedNb(6);
+    if (nbInput) nbInput.value = saved;
+    render(saved);
+
+    // si tu gardes input+bouton sur cette page
+    if (btn && nbInput) {
+        btn.addEventListener("click", () => {
+            const n = toInt(nbInput.value, 1);
+            setSavedNb(n); // optionnel
+            render(n);
+        });
+    }
 })();

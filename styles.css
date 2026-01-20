@@ -120,6 +120,22 @@ section a:hover {
     text-decoration: underline;
 }
 
+
 nav ul:first-child {
     border-bottom: 2px solid #000000;
+}
+
+
+
+div button {
+    background-color: #FFD700;
+    color: #000000;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+
 }

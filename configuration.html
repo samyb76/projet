@@ -9,12 +9,12 @@
 
 <body>
     <header>
-        <h1>Configuration des postes</h1>
+        <h1>CESI BIKE</h1>
         <nav>
             <ul>
 
                 <li><a href="index.html">Accueil</a></li>
-                <li><a href="configuration.html">Configuration</a></li>
+                <li><a href="configuration.html" class="active">Configuration</a></li>
                 <li><a href="visualisation.html">Visualisation</a></li>
             </ul>
         </nav>
@@ -27,50 +27,61 @@
             </label>
 
             <button id="btnValiderPostes" type="button">Valider</button>
-            <button id="btnResetPostes" type="button">Réinitialiser</button>
+
         </section>
 
         <div id="postesContainer"></div>
 
         <template id="posteTemplate">
-            <div class="poste">
+            <form class="poste">
                 <h2 class="poste-title"></h2>
 
                 <label>Saisir le nombre d'étapes</label>
-                <input type="number" min="1" max="10">
+                <input class="nbEtapes" name="nbEtape" type="number" min="1" max="10">
 
                 <label>Saisir la liste des pièces</label>
-                <input type="text">
+                <input name="listepieces" type="text">
 
                 <label>Saisir le stock de départ</label>
-                <input type="text">
+                <input name="stock" type="text">
 
-                <label>Saisir le nom des pièces et leur nombre par étape</label>
-                <input type="text">
+                <button type="button" class="btnValiderEtapes">Valider étapes</button>
+                <input name="csv" type="file" accept=".csv">
+                <button type="button" class="btnGenererCsv">Générer CSV</button>
 
+                <div class="etapesContainer"></div>
 
-                <h3>Étapes</h3>
-
-                <label>Numéro de l'étape</label>
-                <input type="number" min="1" max="10">
-
-                <label>Liste des pièces utilisées</label>
-                <input type="text">
-
-                <label>Nombre de pièces utilisées</label>
-                <input type="number" min="1">
-
-                <label>Importer un fichier CSV</label>
-                <input type="file" accept=".csv">
-
+                <input name="csv2" type="file" accept=".csv">
+                <button type="button" class="btnGenererCsv2">Générer CSV</button>
                 <input type="submit" value="Valider">
                 <input type="reset" value="Réinitialiser">
+
+                <div class="preview"></div>
+                <hr>
+            </form>
+        </template>
+
+        <template id="etapeTemplate">
+            <div class="etape">
+                <h4 class="etape-title"></h4>
+
+                <label>Liste des pièces utilisées</label>
+                <input name="piecesUtilisees" type="text">
+
+                <label>Nombre de pièces utilisées</label>
+                <input name="nbPieces" type="text" min="1">
 
                 <hr>
             </div>
         </template>
+
+        <div id="csvOutput"></div>
     </main>
     <script src="script.js"></script>
 </body>
+<footer>
+    <p>© 2026 - CESI BIKE. Tous droits réservés.</p>
+</footer>
+
 
 </html>

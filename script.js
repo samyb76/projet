@@ -104,7 +104,7 @@ container.addEventListener("click", (e) => {
             ["nbEtapes", "listepieces", "stock"],
             [lirePoste(form)]
         );
-        telechargerCsv(`${posteBaseName(form)}_poste.csv`, csv);
+        telechargerCsv(`${posteBaseName(form)}_stock.csv`, csv);
         return;
     }
 
@@ -114,7 +114,7 @@ container.addEventListener("click", (e) => {
             ["etape", "piecesUtilisees", "nbPieces"],
             lireEtapes(form)
         );
-        telechargerCsv(`${posteBaseName(form)}_etapes.csv`, csv);
+        telechargerCsv(`${posteBaseName(form)}_Etape.csv`, csv);
         return;
     }
 });

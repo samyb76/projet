@@ -13,6 +13,11 @@
     </header>
 
     <main>
+        <label>
+            Nombre de postes
+            <input id="nbPostesVisu" type="number" min="1" value="1">
+        </label>
+        <button id="btnValiderVisu" type="button">Valider</button>
         <table border="1" cellpadding="8">
             <thead>
                 <tr>
@@ -22,68 +27,21 @@
                     <th>Temps de montage (étape en cours)</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>Poste 1</td>
-                    <td>
-                        <progress value="65" max="100">65%</progress>
-                        <span>65%</span>
-                    </td>
-                    <td>Étape 2</td>
-                    <td>01:20</td>
-                </tr>
 
-                <tr>
-                    <td>Poste 2</td>
-                    <td>
-                        <progress value="25" max="100">25%</progress>
-                        <span>25%</span>
-                    </td>
-                    <td>Étape 1</td>
-                    <td>00:53</td>
-                </tr>
-
-                <tr>
-                    <td>Poste 3</td>
-                    <td>
-                        <progress value="90" max="100">90%</progress>
-                        <span>90%</span>
-                    </td>
-                    <td>Étape 4</td>
-                    <td>02:05</td>
-                </tr>
-
-                <tr>
-                    <td>Poste 4</td>
-                    <td>
-                        <progress value="10" max="100">10%</progress>
-                        <span>10%</span>
-                    </td>
-                    <td>Étape 6</td>
-                    <td>01:35</td>
-                </tr>
-
-                <tr>
-                    <td>Poste 5</td>
-                    <td>
-                        <progress value="75" max="100">75%</progress>
-                        <span>75%</span>
-                    </td>
-                    <td>Étape 5</td>
-                    <td>00:28</td>
-                </tr>
-
-                <tr>
-                    <td>Poste 6</td>
-                    <td>
-                        <progress value="40" max="100">40%</progress>
-                        <span>40%</span>
-                    </td>
-                    <td>Étape 2</td>
-                    <td>00:48</td>
-                </tr>
-            </tbody>
+            <tbody id="visuBody"></tbody>
         </table>
+
+        <template id="lignePosteTpl">
+            <tr>
+                <td class="posteCell"></td>
+                <td>
+                    <progress class="stockBar" value="0" max="100"></progress>
+                    <span class="stockTxt"></span>
+                </td>
+                <td class="etapeCell"></td>
+                <td class="tempsCell"></td>
+            </tr>
+        </template>
     </main>
 
     <footer>
@@ -94,6 +52,7 @@
         </nav>
         <p>© 2026 - nom du site. Tous droits réservés.</p>
     </footer>
+    <script src="script.js"></script>
 </body>
 
 </html>

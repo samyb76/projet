@@ -1,3 +1,4 @@
+
 // ===========================
 // Helpers communs
 // ===========================
@@ -81,7 +82,6 @@ function setSavedNb(n) {
     }
 
     const lirePoste = (form) => ([
-        $('[name="nbEtape"]', form).value,
         $('[name="listepieces"]', form).value,
         $('[name="stock"]', form).value
     ]);
@@ -91,6 +91,42 @@ function setSavedNb(n) {
         $('[name="piecesUtilisees"]', etapeEl)?.value ?? "",
         $('[name="nbPieces"]', etapeEl)?.value ?? ""
     ]));
+
+    function splitValues(value) {
+        return String(value ?? "")
+            .split("|")
+            .map(v => v.trim())
+            .filter(v => v.length > 0);
+    }
+
+    function zipPiecesStocks(pieces, stocks) {
+        const n = Math.max(pieces.length, stocks.length);
+        return Array.from({ length: n }, (_, i) => ([
+            pieces[i] ?? "",
+            stocks[i] ?? ""
+        ]));
+    }
+
+    function expandEtapesToRows(form) {
+        // Pour chaque étape, on "explose" en plusieurs lignes
+        const rows = [];
+
+        $$(".etape", form).forEach((etapeEl, i) => {
+            const etapeNum = String(i + 1);
+
+            const pieces = splitValues($('[name="piecesUtilisees"]', etapeEl)?.value);
+            const nbs = splitValues($('[name="nbPieces"]', etapeEl)?.value);
+
+            const pairs = zipPiecesStocks(pieces, nbs); // [piece, nb]
+            pairs.forEach(([piece, nb]) => {
+                // si tout est vide, on évite d'ajouter une ligne inutile
+                if (!piece && !nb) return;
+                rows.push([etapeNum, piece, nb]);
+            });
+        });
+
+        return rows;
+    }
 
     // bouton "Valider postes" : sauvegarde + regen
     btnValider.addEventListener("click", () => {
@@ -110,16 +146,28 @@ function setSavedNb(n) {
         }
 
         if (e.target.classList.contains("btnGenererCsv")) {
-            const csv = makeCsv(["nbEtapes", "listepieces", "stock"], [lirePoste(form)]);
+            const pieces = splitValues(
+                $('[name="listepieces"]', form).value
+            );
+            const stocks = splitValues(
+                $('[name="stock"]', form).value
+            );
+
+            const rows = zipPiecesStocks(pieces, stocks);
+            const csv = makeCsv(["piece", "stock"], rows);
+
             telechargerCsv(`${posteBaseName(form)}_stock.csv`, csv);
             return;
         }
 
+
         if (e.target.classList.contains("btnGenererCsv2")) {
-            const csv = makeCsv(["etape", "piecesUtilisees", "nbPieces"], lireEtapes(form));
+            const rows = expandEtapesToRows(form);
+            const csv = makeCsv(["etape", "piece", "nbPieces"], rows);
             telechargerCsv(`${posteBaseName(form)}_etapes.csv`, csv);
             return;
         }
+
     });
 
     container.addEventListener("submit", (e) => {

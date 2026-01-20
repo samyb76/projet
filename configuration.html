@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Configuration</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>Configuration des postes</h1>
+        <nav>
+            <ul>
+
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="configuration.html">Configuration</a></li>
+                <li><a href="visualisation.html">Visualisation</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <label>
+                Nombre de poste(s)
+                <input id="nbPostes" type="number" min="1" value="1">
+            </label>
+
+            <button id="btnValiderPostes" type="button">Valider</button>
+            <button id="btnResetPostes" type="button">Réinitialiser</button>
+        </section>
+
+        <div id="postesContainer"></div>
+
+        <template id="posteTemplate">
+            <div class="poste">
+                <h2 class="poste-title"></h2>
+
+                <label>Saisir le nombre d'étapes</label>
+                <input type="number" min="1" max="10">
+                <input type="file" accept=".csv">
+
+                <label>Saisir la liste des pièces</label>
+                <input type="text">
+                <input type="file" accept=".csv">
+
+                <label>Saisir le stock de départ</label>
+                <input type="text">
+                <input type="file" accept=".csv">
+
+                <label>Saisir le nom des pièces et leur nombre par étape</label>
+                <input type="text">
+                <input type="file" accept=".csv">
+
+                <input type="submit" value="Valider">
+                <input type="reset" value="Réinitialiser">
+
+                <h3>Étapes</h3>
+
+                <label>Numéro de l'étape</label>
+                <input type="number" min="1" max="10">
+
+                <label>Liste des pièces utilisées</label>
+                <input type="text">
+
+                <label>Nombre de pièces utilisées</label>
+                <input type="number" min="1">
+
+                <input type="submit" value="Valider">
+                <input type="reset" value="Réinitialiser">
+
+                <hr>
+            </div>
+        </template>
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>

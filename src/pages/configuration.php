@@ -1,33 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+session_start();
 
-<head>
-    <meta charset="UTF-8">
-    <title>Configuration</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
+// Traitement du formulaire pour sauvegarder le nombre de postes
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nbPostes'])) {
+    $_SESSION['nbPostes'] = max(1, intval($_POST['nbPostes']));
+}
+
+// Récupérer le nombre de postes depuis la session
+$nbPostes = isset($_SESSION['nbPostes']) ? $_SESSION['nbPostes'] : 1;
+?>
+<!DOCTYPE html>
+<html lang="fr">
+
 
 <body>
     <header>
         <h1>CESI BIKE</h1>
-        <nav>
-            <ul>
 
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="configuration.html" class="active">Configuration</a></li>
-                <li><a href="visualisation.html">Visualisation</a></li>
-            </ul>
-        </nav>
     </header>
     <main>
         <section>
-            <label>
-                Nombre de poste(s)
-                <input id="nbPostes" type="number" min="1" value="1">
-            </label>
+            <form method="POST" action="configuration.php">
+                <label>
+                    Nombre de poste(s)
+                    <input id="nbPostes" name="nbPostes" type="number" min="1" value="<?php echo $nbPostes; ?>">
+                </label>
 
-            <button id="btnValiderPostes" type="button">Valider</button>
-
+                <button id="btnValiderPostes" type="submit">Valider</button>
+            </form>
         </section>
 
         <div id="postesContainer"></div>
@@ -77,11 +77,9 @@
 
         <div id="csvOutput"></div>
     </main>
+
+
     <script src="script.js"></script>
 </body>
-<footer>
-    <p>© 2026 - CESI BIKE. Tous droits réservés.</p>
-</footer>
-
 
 </html>

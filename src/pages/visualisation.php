@@ -9,25 +9,10 @@ require_once __DIR__ . '/../config/db.php';
             <li><a href="/visualisation-poste">La visualisation d'un poste précis</a></li>
         </ul>
     </nav>
-</main>
+    <h1>CESI BIKE - Steps</h1>
 
-
-<?php
-ini_set('display_errors', 'On');
-
-$user = 'viann';
-$pass = 'azerty12345';
-$dbh = new PDO('mysql:host=localhost;dbname=CesiBike;charset=utf8mb4', $user, $pass);
-$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-// LISTE DES STEPS
-$sth = $dbh->query('SELECT * FROM step ORDER BY workstation_id, execution_order, step_number');
-
-echo "<h1>CESI BIKE - Steps</h1>";
-
-// FORMULAIRE CREATE STEP
-echo "<h2>Créer une nouvelle étape</h2>";
-echo "<form action='/?page=create_step' method='POST'>
+    <h2>Créer une nouvelle étape</h2>
+    <form action='/?page=create_step' method='POST'>
         <label for='workstation_id'>Workstation ID:</label>
         <input type='number' id='workstation_id' name='workstation_id' required><br>
 
@@ -47,5 +32,5 @@ echo "<form action='/?page=create_step' method='POST'>
         <input type='number' id='execution_order' name='execution_order' required><br>
 
         <input type='submit' value='Create Step'>
-      </form>";
-?>
+    </form>
+</main>
